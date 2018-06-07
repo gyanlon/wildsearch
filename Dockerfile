@@ -41,5 +41,5 @@ COPY src /home/bottle
 
 # in case you'd prefer to use links, expose the port
 EXPOSE 8080
-ENTRYPOINT ["/usr/bin/python3", "/home/bottle/server.py"]
+ENTRYPOINT ["/usr/bin/python3", "/home/bottle/index.py"]
 
