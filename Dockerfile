@@ -8,6 +8,7 @@ MAINTAINER Yan Long Gao <gyanlon@hotmail.com>
 COPY src /home/bottle
 
 USER root
+RUN pip install -U pip
 RUN pip install elasticsearch-dsl
 RUN pip install xlsd
 
