@@ -1,18 +1,45 @@
 # A super-simple "search" server that exposes port 8080
-# from https://github.com/joshuaconner/hello-world-docker-bottle
 #
 # VERSION               0.1.0
-FROM joshuaconner/hello-world-docker-bottle
+FROM ubuntu:14.04
 MAINTAINER Yan Long Gao <gyanlon@hotmail.com>
 
-COPY src /home/bottle
+# create user
+RUN groupadd web
+RUN useradd -d /home/bottle -m bottle
 
-RUN chmod 777 /
+# make sure sources are up to date
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get upgrade -y
 
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    software-properties-common
+#RUN add-apt-repository universe
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    curl \
+    git \
+    libapache2-mod-php5 \
+    php5 \
+    php5-mcrypt \
+    php5-mysql \
+    python3.4
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+
+RUN python3 get-pip.py    
+RUN pip --version
+
+RUN pip install bottle
 RUN pip install elasticsearch-dsl
-RUN pip install xlsd
+RUN pip install xlrd
+
+#ADD server.py /home/bottle/server.py
+COPY src /home/bottle
 
 # in case you'd prefer to use links, expose the port
 EXPOSE 8080
-ENTRYPOINT ["/usr/bin/python", "/home/bottle/server.py"]
-USER bottle
+ENTRYPOINT ["/usr/bin/python3", "/home/bottle/server.py"]
+
