@@ -8,11 +8,17 @@ MAINTAINER Yan Long Gao <gyanlon@hotmail.com>
 COPY src /home/bottle
 
 USER root
-RUN apt-get install python
-#RUN pip -V
-#RUN pip install --upgrade pip
-#RUN pip install elasticsearch-dsl
-#RUN pip install xlsd
+RUN apt-get install python3
+RUN apt-get install python3-pip
+
+rm /usr/bin/python
+ln -s /usr/bin/python3 /usr/bin/python
+
+RUN pip --version
+RUN pip install --upgrade pip
+RUN pip install bottle
+RUN pip install elasticsearch-dsl
+RUN pip install xlsd
 
 # in case you'd prefer to use links, expose the port
 EXPOSE 8080
