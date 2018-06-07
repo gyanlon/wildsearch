@@ -8,6 +8,7 @@ MAINTAINER Yan Long Gao <gyanlon@hotmail.com>
 COPY src /home/bottle
 
 USER root
+RUN apt-get install python
 RUN pip -V
 RUN pip install --upgrade pip
 RUN pip install elasticsearch-dsl
