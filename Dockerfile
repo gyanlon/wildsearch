@@ -1,10 +1,11 @@
 # A super-simple "search" server that exposes port 8080
+# from https://github.com/joshuaconner/hello-world-docker-bottle
 #
 # VERSION               0.1.0
 FROM joshuaconner/hello-world-docker-bottle
 MAINTAINER Yan Long Gao <gyanlon@hotmail.com>
 
-ADD server.py /home/bottle/server.py
+COPY src /home/bottle
 
 RUN pip install elasticsearch-dsl
 RUN pip install xlsd
