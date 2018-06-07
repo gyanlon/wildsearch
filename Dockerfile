@@ -11,8 +11,8 @@ USER root
 RUN apt-get install python3
 RUN apt-get install python3-pip
 
-rm /usr/bin/python
-ln -s /usr/bin/python3 /usr/bin/python
+RUN rm /usr/bin/python
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN pip --version
 RUN pip install --upgrade pip
