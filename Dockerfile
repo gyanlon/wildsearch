@@ -17,4 +17,4 @@ RUN apt-get install python
 # in case you'd prefer to use links, expose the port
 EXPOSE 8080
 ENTRYPOINT ["/usr/bin/python", "/home/bottle/server.py"]
-USER bottle
+#USER bottle
