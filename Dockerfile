@@ -9,10 +9,10 @@ COPY src /home/bottle
 
 USER root
 RUN apt-get install python
-RUN pip -V
-RUN pip install --upgrade pip
-RUN pip install elasticsearch-dsl
-RUN pip install xlsd
+#RUN pip -V
+#RUN pip install --upgrade pip
+#RUN pip install elasticsearch-dsl
+#RUN pip install xlsd
 
 # in case you'd prefer to use links, expose the port
 EXPOSE 8080
