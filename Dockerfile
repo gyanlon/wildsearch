@@ -11,14 +11,14 @@ USER root
 RUN apt-get install python3
 RUN apt-get install python3-pip
 
-RUN rm /usr/bin/python
-RUN ln -s /usr/bin/python3 /usr/bin/python
+#RUN rm /usr/bin/python
+#RUN ln -s /usr/bin/python3 /usr/bin/python
 
-RUN pip --version
-RUN pip install --upgrade pip
-RUN pip install bottle
-RUN pip install elasticsearch-dsl
-RUN pip install xlsd
+#RUN pip --version
+#RUN pip install --upgrade pip
+#RUN pip install bottle
+#RUN pip install elasticsearch-dsl
+#RUN pip install xlsd
 
 # in case you'd prefer to use links, expose the port
 EXPOSE 8080
