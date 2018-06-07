@@ -8,7 +8,7 @@ MAINTAINER Yan Long Gao <gyanlon@hotmail.com>
 COPY src /home/bottle
 
 USER root
-RUN sudo chmod 777 /build
+RUN chmod 777 /build
 
 RUN pip install elasticsearch-dsl
 RUN pip install xlsd
