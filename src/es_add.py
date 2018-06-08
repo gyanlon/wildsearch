@@ -21,18 +21,21 @@ class Article(DocType):
     def is_published(self):
         return datetime.now() > self.published_from
 
-# create the mappings in elasticsearch
-Article.init()
+def update_2_es():
+    # create the mappings in elasticsearch
+    Article.init()
 
-# create and save and article
-article = Article(meta={'id': 42}, title='Hello world!', tags=['test'])
-article.body = ''' looong text '''
-article.published_from = datetime.now()
-article.save()
+    # create and save and article
+    article = Article(meta={'id': 42}, title='Hello world!', tags=['test'])
+    article.body = ''' looong text '''
+    article.published_from = datetime.now()
+    article.save()
 
-article = Article.get(id=42)
-print(article.title, article.tags)
-print(article.is_published())
+    article = Article.get(id=42)
+    print(article.title, article.tags)
+    print(article.is_published())
 
-# Display cluster health
-print(connections.get_connection().cluster.health())
+    # Display cluster health
+    print(connections.get_connection().cluster.health())
+
+update_2_es()
