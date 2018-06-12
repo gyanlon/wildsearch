@@ -1,5 +1,6 @@
 from bottle import route, run, template, get, post, request
 import page_update
+import page_search
 
 @get('/login') # or @route('/login')
 def login():
