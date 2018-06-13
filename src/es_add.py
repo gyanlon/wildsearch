@@ -85,7 +85,7 @@ def save2es(es, file):
         success, _ = bulk(es, ACTIONS, index = index_name, raise_on_error=True)
         total += success
     print( count )
-# update_2_es()
+
 if __name__ == '__main__':
     es = Elasticsearch(hosts=["127.0.0.1:9200"], timeout=5000)
     save2es(es, "sample.xls")

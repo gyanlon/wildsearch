@@ -1,19 +1,21 @@
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search
+import requests
+import json
 
-client = Elasticsearch()
+es = Elasticsearch()
+s = Search(using=es)
 
-s = Search(using=client)
-#s = Search(using=client, index="my-index") \
-#    .filter("term", category="search") \
-#    .query("match", title="python")   \
-#    .exclude("match", description="beta")
+def query(querystr):    
+    records = []
+    print("search ： ", querystr)
+    response = requests.get("http://localhost:9200/_search?q=" + querystr)
+    res = json.loads(response.text)
 
-def query(querystr):
-    querystring = "*" + querystr + "*"
-    print(querystring)
-    res = client.search(index="", body={"query":{"wildcard":{"body":"*"}}})
+    for hit in res['hits']['hits']:
+        records.append(hit["_source"])
 
-    return res
+    return records
 
-# print(query('love'))
+if __name__ == '__main__':
+    print(query('love'))
