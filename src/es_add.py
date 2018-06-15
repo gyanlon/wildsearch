@@ -5,6 +5,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 import sys
 import time
+import requests
 
 # reload(sys)
 # sys.setdefaultencoding('utf-8')
@@ -54,18 +55,8 @@ def save2es(es, file):
     count = 0
     total = 0
 
-    # print(sheets[0]['children'][0])
-    # action = {
-    #     "_index": index_name,
-    #     "_type": "xxx",
-    #     "_source": sheets[0]['children'][0]
-    # }
-    # ACTIONS.append(action)             
-
-    success, _ = bulk(es, ACTIONS, index = index_name, chunk_size=500, raise_on_error=True)    
     for sheet in sheets:
         for record in sheet['children']:
-            # print (record)   
 
             action = {
                 "_index": index_name,
@@ -86,6 +77,37 @@ def save2es(es, file):
         total += success
     print( count )
 
+def config_analyzer_setting() :
+    settings = '''
+        {    "settings": {
+                "analysis": {
+                    "char_filter": {
+                        "&_to_and": {
+                            "type":       "mapping",
+                            "mappings": [ "&=> and "]
+                    }},
+                   "tokenizer": {
+                        "my_tokenizer": {
+                           "type": "pattern",
+                           "pattern":"[^A-Za-z0-9_-]"
+                    }},
+                    "filter": {
+                        "my_stopwords": {
+                            "type":       "stop",
+                            "stopwords": [ "the", "a" ]
+                    }},
+                    "analyzer": {
+                        "my_analyzer": {
+                            "type":         "custom",
+                            "char_filter":  [ "html_strip", "&_to_and" ],
+                            "tokenizer":    "my_tokenizer",
+                            "filter":       [ "lowercase", "my_stopwords" ]
+                    }}
+        }}}
+    '''
+    requests.put("http://localhost:9200/doc/", settings)
+
 if __name__ == '__main__':
+    config_analyzer_setting()
     es = Elasticsearch(hosts=["127.0.0.1:9200"], timeout=5000)
     save2es(es, "sample.xls")

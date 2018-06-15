@@ -15,7 +15,7 @@ def search_form():
 def do_search():
     querystr = request.forms.get('querystr')
     records = query(querystr)
-    searchform = search_form().replace("input name='querystr'", "input name='querystr' value='" + querystr + "'")
+    searchform = search_form().replace("input name='querystr'", "input name='querystr' value='" + querystr + "'") #show back query string
     for record in records :
       searchform = searchform + "<div style='border-bottom:medium solid #ddd;border-width: 0 0 1 0; padding-bottom: 5px'>%s</div>" % record
 
