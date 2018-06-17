@@ -6,6 +6,7 @@ from elasticsearch.helpers import bulk
 import sys
 import time
 import requests
+import json  
 
 # reload(sys)
 # sys.setdefaultencoding('utf-8')
@@ -61,7 +62,9 @@ def save2es(es, file):
             action = {
                 "_index": index_name,
                 "_type": sheet['title'],
-                "_source": record
+                "_source": {
+                    "content_body": json.dumps(record)
+                }
             }
             ACTIONS.append(action)             
             
@@ -79,7 +82,7 @@ def save2es(es, file):
 
 def config_analyzer_setting() :
     settings = '''
-        {    "settings": {
+        { "settings": {
                 "analysis": {
                     "char_filter": {
                         "&_to_and": {
@@ -103,11 +106,23 @@ def config_analyzer_setting() :
                             "tokenizer":    "my_tokenizer",
                             "filter":       [ "lowercase", "my_stopwords" ]
                     }}
-        }}}
+            }},
+            "mappings": {
+                "_default_": {
+                  "properties": {
+                    "content_body": {
+                      "type": "text",
+                      "analyzer": "my_analyzer",
+                      "search_analyzer": "my_analyzer"
+                    }
+                }       
+            }}
+        }
     '''
-    requests.put("http://localhost:9200/doc/", settings)
+    res = requests.put("http://localhost:9200/doc/", settings)
+    print(res.content)
 
-if __name__ == '__main__':
+if __name__ == '__main__' :
     config_analyzer_setting()
     es = Elasticsearch(hosts=["127.0.0.1:9200"], timeout=5000)
     save2es(es, "sample.xls")

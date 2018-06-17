@@ -37,7 +37,7 @@ def read_excel(file_path):
                     # title_cn= str(title_de.split("'")[1]).strip()
                     #获取单元格的值  
                     if( title_de.strip() != "") :
-                        record[title_de]=str(sheet.row_values(i)[j]).strip()
+                        record[title_de]=str(sheet.row_values(i)[j]).strip()#.replace("-","_")
                 
                 result["children"].append(record)  
             SHEETS.append(result)
