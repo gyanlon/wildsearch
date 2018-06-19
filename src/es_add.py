@@ -7,48 +7,30 @@ import sys
 import time
 import requests
 import json  
+import os
 
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
+def load(dir) :
+    folders = []
+    files = []
+     
+    for entry in os.scandir(dir):
+        if entry.is_dir() :
+            folders.append(entry.path)
+        elif entry.is_file() and entry.path.endswith(".xls") or entry.path.endswith(".xlsx"):
+            files.append(entry.path)
+     
+    print(files)
 
-# Define a default Elasticsearch client
-# connections.create_connection(hosts=['localhost'])
+    config_analyzer_setting()
+    completed_list = []
+    for file in files :        
+        abspath = os.path.abspath(file)
+        save2es(abspath)
+        completed_list.append(abspath)
 
-class Article(DocType):
-    title = Text(analyzer='snowball', fields={'raw': Keyword()})
-    body = Text(analyzer='snowball')
-    tags = Keyword()
-    published_from = Date()
-    lines = Integer()
+    return completed_list
+def save2es(file):
 
-    class Meta:
-        index = 'doc'
-
-    def save(self, ** kwargs):
-        self.lines = len(self.body.split())
-        return super(Article, self).save(** kwargs)
-
-    def is_published(self):
-        return datetime.now() > self.published_from
-
-def update_2_es():
-    # create the mappings in elasticsearch
-    Article.init()
-
-    # create and save and article
-    article = Article(meta={'id': 42}, title='Hello world!', tags=['test'])
-    article.body = ''' looong text '''
-    article.published_from = datetime.now()
-    article.save()
-
-    article = Article.get(id=42)
-    print(article.title, article.tags)
-    print(article.is_published())
-
-    # Display cluster health
-    print(connections.get_connection().cluster.health())
-
-def save2es(es, file):
     ACTIONS = []
     sheets = read_excel(file) 
     index_name = "doc"
@@ -56,6 +38,7 @@ def save2es(es, file):
     count = 0
     total = 0
 
+    es = Elasticsearch(hosts=["127.0.0.1:9200"], timeout=5000)
     for sheet in sheets:
         for record in sheet['children']:
 
@@ -123,6 +106,6 @@ def config_analyzer_setting() :
     print(res.content)
 
 if __name__ == '__main__' :
-    config_analyzer_setting()
-    es = Elasticsearch(hosts=["127.0.0.1:9200"], timeout=5000)
-    save2es(es, "sample.xls")
+    # config_analyzer_setting()
+    # save2es("sample.xls")
+    load('./')

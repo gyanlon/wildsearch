@@ -1,8 +1,8 @@
 from bottle import route, run, template, get, post, request
-from es_add import update_2_es
+from es_add import load
 
 @get('/update')
-def update():
+def update_form():
     return '''
         <form action="/update" method="post">
             <input value="Update" type="submit" />
@@ -11,4 +11,9 @@ def update():
 
 @post('/update') # or @route('/login', method='POST')
 def do_update():
-    update_2_es()
+    files = load("./data/todo/")
+
+    list = update_form()
+    for file in files:
+        list = list + "<div> %s - Completed </div>" % file
+    return list
