@@ -23,10 +23,13 @@ def load(dir) :
 
     config_analyzer_setting()
     completed_list = []
-    for file in files :        
-        abspath = os.path.abspath(file)
-        save2es(abspath)
-        completed_list.append(abspath)
+    for file in files :  
+        try:      
+            abspath = os.path.abspath(file)
+            save2es(abspath)
+            completed_list.append({ "path" : abspath, "status" : True})
+        except:
+            completed_list.append({ "path" : abspath, "status" : False})
 
     return completed_list
 def save2es(file):
