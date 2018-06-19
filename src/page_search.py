@@ -2,7 +2,7 @@ from bottle import route, run, template, get, post, request
 from es_search import query
 import json
 
-@get('/search')
+@get('/')
 def search_form():
     return '''
         <form action="/search" method="post">

@@ -24,8 +24,4 @@ def do_login():
 def check_login(username, password):
     return True     
 
-@route('/hello/<name>')
-def index(name):
-    return template('<b>Hello {{name}}</b>!', name=name)
-
-run(host='localhost', port=9080, debug=True)
+run(host='localhost', port=80, debug=True)
