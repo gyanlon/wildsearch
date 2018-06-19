@@ -8,6 +8,7 @@ import time
 import requests
 import json  
 import os
+import constants
 
 def load(dir) :
     folders = []
@@ -105,7 +106,7 @@ def config_analyzer_setting() :
             }}
         }
     '''
-    res = requests.put("http://localhost:9200/doc/", settings)
+    res = requests.put("http://{}:{}/doc/".format(constants.ES_IP, constants.ES_PORT), settings)
     print(res.content)
 
 if __name__ == '__main__' :

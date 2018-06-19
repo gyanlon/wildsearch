@@ -3,6 +3,7 @@ from elasticsearch_dsl import Search
 import requests
 import json
 import cgi
+import constants
 
 es = Elasticsearch()
 s = Search(using=es)
@@ -10,7 +11,7 @@ s = Search(using=es)
 def query(querystr):    
     records = []
     print("search:", querystr)
-    response = requests.get("http://localhost:9200/_search?q=content_body:" + querystr )
+    response = requests.get("http://{}:{}/_search?q=content_body:{}".format(constants.ES_IP, constants.ES_PORT, querystr))
     res = json.loads(response.text)
 
     for hit in res['hits']['hits']:
