@@ -35,6 +35,7 @@ RUN pip --version
 RUN pip install bottle
 RUN pip install elasticsearch-dsl
 RUN pip install xlrd
+RUN pip install requests
 
 #ADD server.py /home/bottle/server.py
 COPY src /home/bottle
