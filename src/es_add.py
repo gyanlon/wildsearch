@@ -51,7 +51,7 @@ def save2es(file):
     count = 0
     total = 0
 
-    es = Elasticsearch(hosts=["127.0.0.1:9200"], timeout=5000)
+    es = Elasticsearch(hosts=["{}:{}".format(constants.ES_IP, constants.ES_PORT)], timeout=5000)
     for sheet in sheets:
         for record in sheet['children']:
 
