@@ -40,6 +40,8 @@ RUN pip install requests
 #ADD server.py /home/bottle/server.py
 COPY src /home/bottle
 
+VOLUME /data
+
 # in case you'd prefer to use links, expose the port
 EXPOSE 8080
 
