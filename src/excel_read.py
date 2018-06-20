@@ -13,7 +13,6 @@ def read_excel(file_path):
         worksheets = book.sheets()  
         print ("该Excel包含的表单列表为：\n", book.sheet_names()  )
 
-
         for sheet in worksheets:  
             print ('%s,%s' %(worksheets.index(sheet),sheet.name))  
             

@@ -8,19 +8,27 @@ import time
 import requests
 import json  
 import os
+import os.path
 import constants
 
 def load(dir) :
     folders = []
     files = []
      
-    for entry in os.scandir(dir):
-        if entry.is_dir() :
-            folders.append(entry.path)
-        elif entry.is_file() and entry.path.endswith(".xls") or entry.path.endswith(".xlsx"):
-            files.append(entry.path)
-     
-    print(files)
+    # for entry in os.scandir(dir):
+    #     if entry.is_dir() :
+    #         folders.append(entry.path)
+    #     elif entry.is_file() and ( entry.path.endswith(".xls") or entry.path.endswith(".xlsx") ) :
+    #         files.append(entry.path)
+    
+    for parent,dirnames,filenames in os.walk(dir):  
+        for filename in filenames:    
+            if(filename.endswith(".xls") or filename.endswith(".xls") ) :
+                path = os.path.join(parent,filename)
+                abspath = os.path.abspath(path)
+                files.append(os.path.join(parent,filename))
+
+    print("Excel files : ", files)
 
     config_analyzer_setting()
     completed_list = []
@@ -33,6 +41,7 @@ def load(dir) :
             completed_list.append({ "path" : abspath, "status" : False})
 
     return completed_list
+
 def save2es(file):
 
     ACTIONS = []
@@ -113,3 +122,14 @@ if __name__ == '__main__' :
     # config_analyzer_setting()
     # save2es("sample.xls")
     load('./')
+    # this folder is custom  
+    # rootdir="./"  
+    # for parent,dirnames,filenames in os.walk(rootdir):  
+    #     #case 1:  
+    #     for dirname in dirnames:  
+    #         print("parent folder is:" + parent)  
+    #         print("dirname is:" + dirname)  
+    #     #case 2  
+    #     for filename in filenames:    
+    #         print("parent folder is:" + parent)  
+    #         print("filename with full path:"+ os.path.join(parent,filename))  
