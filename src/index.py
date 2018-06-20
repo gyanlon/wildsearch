@@ -2,4 +2,5 @@ from bottle import route, run, template, get, post, request
 import page_search
 import page_load 
 
-run(host='localhost', port=8080, debug=True)
+# Note: must be 0.0.0.0
+run(host='0.0.0.0', port=8080, debug=True)
