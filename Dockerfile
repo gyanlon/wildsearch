@@ -4,6 +4,18 @@
 FROM ubuntu:14.04
 MAINTAINER Yan Long Gao <gyanlon@hotmail.com>
 
+# Set Timezone
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Ensure UTF-8 locale
+#COPY locale /etc/default/locale
+RUN locale-gen zh_CN.UTF-8 && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
+RUN locale-gen zh_CN.UTF-8  
+ENV LANG zh_CN.UTF-8  
+ENV LANGUAGE zh_CN:zh  
+ENV LC_ALL zh_CN.UTF-8
+
 # create user
 RUN groupadd web
 RUN useradd -d /home/bottle -m bottle

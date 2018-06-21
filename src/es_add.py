@@ -10,32 +10,29 @@ import json
 import os
 import os.path
 import constants
+import logging
 
 def load(dir) :
     folders = []
     files = []
      
-    # for entry in os.scandir(dir):
-    #     if entry.is_dir() :
-    #         folders.append(entry.path)
-    #     elif entry.is_file() and ( entry.path.endswith(".xls") or entry.path.endswith(".xlsx") ) :
-    #         files.append(entry.path)
-    
     for parent,dirnames,filenames in os.walk(dir):  
         for filename in filenames:    
-            if(filename.endswith(".xls") or filename.endswith(".xls") ) :
+            logging.info(filename)
+            if(filename.endswith(".xls") or filename.endswith(".xlsx") ) :
                 path = os.path.join(parent,filename)
                 abspath = os.path.abspath(path)
-                files.append(os.path.join(parent,filename))
+                logging.info(abspath)
+                files.append(abspath)
 
-    print("Excel files : ", files)
+    logging.info("Excel files : %s" % files)
 
     config_analyzer_setting()
     completed_list = []
     for file in files :  
         try:      
-            abspath = os.path.abspath(file)
-            save2es(abspath)
+            # abspath = os.path.abspath(file)
+            save2es(file)
             completed_list.append({ "path" : abspath, "status" : True})
         except:
             completed_list.append({ "path" : abspath, "status" : False})
@@ -43,14 +40,15 @@ def load(dir) :
     return completed_list
 
 def save2es(file):
-
-    ACTIONS = []
-    sheets = read_excel(file) 
+    logging.info("save2es : %s" % file)
+    
+    ACTIONS = []       
     index_name = "doc"
     doc_type_name = "prd"
     count = 0
     total = 0
-
+    
+    sheets = read_excel(file) 
     es = Elasticsearch(hosts=["{}:{}".format(constants.ES_IP, constants.ES_PORT)], timeout=5000)
     for sheet in sheets:
         for record in sheet['children']:
@@ -65,7 +63,7 @@ def save2es(file):
             ACTIONS.append(action)             
             
             if( count > 0 and count % 500 == 0) :    
-                print (count)        
+                logging.info (count)        
                 success, _ = bulk(es, ACTIONS, index = index_name, chunk_size=500, raise_on_error=True)    
                 ACTIONS = []                      
                 total += success
@@ -74,7 +72,7 @@ def save2es(file):
             
         success, _ = bulk(es, ACTIONS, index = index_name, raise_on_error=True)
         total += success
-    print( count )
+    logging.info( count )
 
 def config_analyzer_setting() :
     settings = '''
@@ -116,7 +114,7 @@ def config_analyzer_setting() :
         }
     '''
     res = requests.put("http://{}:{}/doc/".format(constants.ES_IP, constants.ES_PORT), settings)
-    print(res.content)
+    logging.info(res.content)
 
 if __name__ == '__main__' :
     # config_analyzer_setting()
@@ -127,9 +125,9 @@ if __name__ == '__main__' :
     # for parent,dirnames,filenames in os.walk(rootdir):  
     #     #case 1:  
     #     for dirname in dirnames:  
-    #         print("parent folder is:" + parent)  
-    #         print("dirname is:" + dirname)  
+    #         logging.info("parent folder is:" + parent)  
+    #         logging.info("dirname is:" + dirname)  
     #     #case 2  
     #     for filename in filenames:    
-    #         print("parent folder is:" + parent)  
-    #         print("filename with full path:"+ os.path.join(parent,filename))  
+    #         logging.info("parent folder is:" + parent)  
+    #         logging.info("filename with full path:"+ os.path.join(parent,filename))  
