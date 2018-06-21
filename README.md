@@ -4,6 +4,11 @@
 ### Step 1 - Install Docker in Windows
 https://github.com/docker/toolbox/releases
 
+Note:
+Enable VT-d in the bios for the virual toolbox installation in windows. 
+http://www.netinstructions.com/how-to-install-docker-on-windows-behind-a-proxy/
+
+
 ### Step 2 - Install wildsearch in Docker
 > docker pull gyanlon/wildsearch-bottle
 
