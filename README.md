@@ -16,14 +16,14 @@ or
 
 > docker build -t gyanlon/wildsearch-bottle:latest git@github.com:gyanlon/wildsearch.git
 
-### Step 3 - Create shared folder in window
+### Step 3 - Create shared folder in window and copy your data files (xls or xlsx files) here
 c:/Users/wildsearch
 
 ### Step 4 - Run wildsearch in Docker with shared folder
 > docker run -p 8080:8080 -v //c/Users/wildsearch:/data -d gyanlon/wildsearch-bottle
 
-### Step 5 - Use search
-http://localhost:8080
-
-### Step 6 - Load data
+### Step 5 - Load data
 http://localhost:8080/load
+
+### Step 6 - Use search
+http://localhost:8080
