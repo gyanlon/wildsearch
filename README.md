@@ -24,6 +24,10 @@ c:/Users/wildsearch/todo
 ### Step 5 - Run wildsearch in Docker with shared folder
 > docker run -p 8080:8080 -v //c/Users/wildsearch:/data -d gyanlon/wildsearch-bottle
 
+or
+
+> docker run -e "ES_IP=192.168.99.100" -e "ES_PORT=9200" -p 8080:8080 -v //c/Users/wildsearch:/data -d gyanlon/wildsearch-bottle
+
 ### Step 6 - Load data
 http://localhost:8080/load
 
