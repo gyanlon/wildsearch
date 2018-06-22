@@ -33,10 +33,11 @@ def load(dir) :
         try:      
             # abspath = os.path.abspath(file)
             save2es(file)
-            completed_list.append({ "path" : abspath, "status" : True})
+            completed_list.append({ "path" : file, "status" : True})
         except:
-            completed_list.append({ "path" : abspath, "status" : False})
+            completed_list.append({ "path" : file, "status" : False})
 
+    logging.info("Completed files : %s" % completed_list)
     return completed_list
 
 def save2es(file):

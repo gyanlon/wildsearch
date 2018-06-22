@@ -11,7 +11,7 @@ def update_form():
 
 @post('/load') # or @route('/login', method='POST')
 def do_update():
-    results = load("./data/todo/")
+    results = load("/data/todo/")
 
     list = update_form()
     for result in results:
