@@ -17,7 +17,7 @@ def query(querystr):
     s = Search(using=es, index="doc") \
         .query("match", content_body=querystr) \
         .highlight("content_body", fragment_size=2048, number_of_fragments=50) \
-        .highlight_options(pre_tags=["<em style='color:blue;font:bold;'>"], post_tags=["</em>"])
+        .highlight_options(pre_tags=["<em style='color:red;'>"], post_tags=["</em>"])
 
     response = s.execute()
 
