@@ -58,7 +58,7 @@ def save2es(file):
                 "_index": index_name,
                 "_type": sheet['title'],
                 "_source": {
-                    "content_body": json.dumps(record)
+                    "content_body": json.dumps(record).encode('utf-8').decode('unicode_escape')
                 }
             }
             ACTIONS.append(action)             

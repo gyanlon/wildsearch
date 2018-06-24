@@ -9,10 +9,16 @@ import logging
 es = Elasticsearch([{"host":constants.ES_IP,"port":constants.ES_PORT}])
 
 def query(querystr):    
+    records = query_match(querystr);
+
+    if len(records) <= 0 :
+        records = query_wildcard(querystr)
+
+    return records
+
+def query_match(querystr) :
     records = []
     logging.info("search:%s" % querystr)
-    # response = requests.get("http://{}:{}/_search?q=content_body:{}".format(constants.ES_IP, constants.ES_PORT, querystr))
-    # res = json.loads(response.text)
 
     s = Search(using=es, index="doc") \
         .query("match", content_body=querystr) \
@@ -25,11 +31,24 @@ def query(querystr):
         for fragment in hit.meta.highlight.content_body:
             records.append(fragment)
 
-    # for hit in response :
-    #     records.append(hit.content_body)
+    return records
+
+def query_wildcard(querystr) :
+    records = []
+
+    response = requests.get("http://{}:{}/_search?q={}".format(constants.ES_IP, constants.ES_PORT, querystr))
+    print(response.text)
+    res = json.loads(response.text)
+    
+    for hit in res['hits']['hits']:
+        records.append(hit["_source"]["content_body"])
 
     return records
 
 if __name__ == '__main__':
-    print(query('13-Isopropylpodocarpa-7'))
-    print(len(query('13-Isopropylpodocarpa-7')))
+    print(query('丙'))
+    print(u'丙')
+    # print(query("中".encode('unicode_escape').decode('utf-8')))
+    # print(b'\xc2\xbb'.decode('utf-8'))
+
+    # print(len(query('13-Isopropylpodocarpa-7')))
