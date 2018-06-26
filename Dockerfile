@@ -51,6 +51,7 @@ RUN pip install requests
 
 #ADD server.py /home/bottle/server.py
 COPY src /home/bottle
+WORKDIR /home/bottle
 
 VOLUME /data
 
