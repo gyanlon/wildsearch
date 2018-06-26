@@ -16,7 +16,10 @@ def do_search():
     prettyRecords = []
     for record in records :
         rec = json.loads(record)
-        rec = dict((k.replace("text:'","").replace("'",""), "<em>%s</em>" % v) for k, v in rec.items())
-        prettyRecords.append(json.dumps(rec).encode('utf-8').decode('unicode_escape'))
+        rec = dict((k.replace("text:'","<span class=\"title\">").replace("'","</span>"), "<em>%s</em>" % v) for k, v in rec.items())
+        prettyRecords.append(json.dumps(rec).encode('utf-8').decode('unicode_escape') \
+            .replace("\"","") \
+            .replace("{","") \
+            .replace("}","") )
 
     return template('page_search_results', querystr=querystr, records=prettyRecords)
