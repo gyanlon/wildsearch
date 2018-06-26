@@ -1,7 +1,12 @@
 # -*- coding:utf-8 -*- 
-from bottle import route, run, template, get, post, request, response
+from bottle import route, run, template, get, post, request, response, static_file
 from es_search import query
 import json
+import re
+
+@route('/images/<filename:re:.*\.gif>')
+def server_static(filename):
+    return static_file(filename, root="./images")
 
 @get('/')
 def search_form():
