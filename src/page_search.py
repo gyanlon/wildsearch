@@ -13,4 +13,10 @@ def do_search():
     print("search : ", querystr)
     
     records = query(querystr)
-    return template('page_search_results', records=records)
+    prettyRecords = []
+    for record in records :
+        rec = json.loads(record)
+        rec = dict((k.replace("text:'","").replace("'",""), "<em>%s</em>" % v) for k, v in rec.items())
+        prettyRecords.append(json.dumps(rec).encode('utf-8').decode('unicode_escape'))
+
+    return template('page_search_results', querystr=querystr, records=prettyRecords)
