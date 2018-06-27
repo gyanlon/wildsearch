@@ -16,11 +16,11 @@ def query(querystr):
 
     return records
 
-def query_match(querystr) :
+def query_match(querystr, idx="doc") :
     records = []
     logging.info("search:%s" % querystr)
 
-    s = Search(using=es, index="doc") \
+    s = Search(using=es, index=idx) \
         .query("match", content_body=querystr) \
         .highlight("content_body", fragment_size=2048, number_of_fragments=50) \
         .highlight_options(pre_tags=["<em style='color:red;'>"], post_tags=["</em>"])

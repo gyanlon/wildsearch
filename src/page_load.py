@@ -15,7 +15,7 @@ def do_update():
 
     list = update_form()
     for result in results:
-        list = list + "<div> {} - {} </div>".format(result["path"], "Completed" if result["status"] else "Error")
+        list = list + "<div> {} - {} </div>".format(result["path"], result["status"])
     return list
 
 if __name__ == '__main__' :
