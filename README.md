@@ -31,5 +31,5 @@ or
 ### Step 6 - Load data
 http://localhost:8080/load
 
-### Step 7 - Use search
+### Step 7 - Search it
 http://localhost:8080
