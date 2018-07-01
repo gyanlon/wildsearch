@@ -1,5 +1,5 @@
 # wildsearch
-
+A little search tool for your knowledge library
 
 ### Step 1 - Install Docker in Windows
 https://github.com/docker/toolbox/releases
