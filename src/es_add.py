@@ -42,7 +42,9 @@ def load(dir) :
                 completed_list.append({ "path" : file, "status" : "Completed"})
             else :
                 completed_list.append({ "path" : file, "status" : "Existed"})   
-        except:
+        except Exception as e:
+            logging.error(e)
+            print(e)
             # os.rename(file, file.replace("todo", "error"))   #permission issue
             completed_list.append({ "path" : file, "status" : "Failed"})
 
@@ -55,7 +57,13 @@ def exists_in_es(filepath) :
     s = Search(using=es, index="history") \
         .query("match", name=filepath) \
         .query("match", size=os.path.getsize(filepath))
-    response = s.execute()
+
+    try :
+        response = s.execute()
+    except Exception as e:
+        logging.error(e)
+        print(e)
+        response = []    
     return len(response) > 0
         
 

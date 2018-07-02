@@ -19,5 +19,5 @@ def do_update():
     return list
 
 if __name__ == '__main__' :
-    res = do_update()    
+    res = load("./data/todo/")    
     print(res)

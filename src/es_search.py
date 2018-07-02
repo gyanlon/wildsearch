@@ -46,8 +46,7 @@ def query_wildcard(querystr) :
     return records
 
 if __name__ == '__main__':
-    print(query('丙'))
-    print(u'丙')
+    print(query('dog'))
     # print(query("中".encode('unicode_escape').decode('utf-8')))
     # print(b'\xc2\xbb'.decode('utf-8'))
 

@@ -20,6 +20,8 @@ def do_search():
     records = query(querystr)
     prettyRecords = []
     for record in records :
+        record = record.replace("\r\n","").replace("\n","").replace("\r","").replace("\t","")
+        print(record)
         rec = json.loads(record)
         rec = dict((k.replace("text:'","<span class=\"title\">").replace("'","</span>"), "<em>%s</em>" % v) for k, v in rec.items())
         prettyRecords.append(json.dumps(rec).encode('utf-8').decode('unicode_escape') \
@@ -28,3 +30,7 @@ def do_search():
             .replace("}","") )
 
     return template('page_search_results', querystr=querystr, records=prettyRecords)
+
+if __name__ == '__main__' :
+    record = "{\"text:' price($)'\": \"556.0\n\"}".replace("\r\n","").replace("\n","").replace("\r","")
+    json.loads(record.encode("utf-8").decode("utf-8"))
