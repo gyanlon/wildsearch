@@ -1,7 +1,7 @@
 aiohttp==2.2.5
 async-timeout==1.2.1
 bottle==0.12.13
-certifi==2017.7.27.1
+certifi==2022.12.7
 chardet==3.0.4
 dj-database-url==0.4.1
 Django==1.11
